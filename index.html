@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>스레드 뒷삭 제거기 — 나를 언팔한 계정 정리</title>
+<meta name="description" content="Threads에서 맞팔 후 슬쩍 언팔한 계정(뒷삭)을 찾아 클릭 한 번으로 정리하세요. 설치 불필요, 비밀번호 입력 없음.">
+<style>
+  :root{--purple:#7c3aed;--indigo:#4f46e5;--bg:#faf9fc;--text:#1f2937;--muted:#6b7280}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+  .hero{background:linear-gradient(135deg,var(--purple),var(--indigo));color:#fff;text-align:center;padding:64px 20px 56px}
+  .hero h1{font-size:2rem;margin-bottom:12px}
+  .hero p{opacity:.9;max-width:560px;margin:0 auto}
+  main{max-width:720px;margin:0 auto;padding:40px 20px 80px}
+  section{background:#fff;border-radius:16px;padding:28px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+  h2{font-size:1.25rem;margin-bottom:16px;color:var(--indigo)}
+  ol{padding-left:22px;display:flex;flex-direction:column;gap:10px}
+  .bm-zone{text-align:center;padding:28px;border:2px dashed #c7c3e0;border-radius:14px;background:#f6f5fb;margin:16px 0}
+  .bm-link{display:inline-block;background:linear-gradient(135deg,var(--purple),var(--indigo));color:#fff;font-weight:700;
+    font-size:1.05rem;padding:14px 28px;border-radius:12px;text-decoration:none;cursor:grab;
+    box-shadow:0 4px 14px rgba(124,58,237,.4)}
+  .bm-hint{color:var(--muted);font-size:.9rem;margin-top:12px}
+  .btn{display:inline-block;background:#eeecf7;color:#333;border:none;padding:10px 18px;border-radius:10px;
+    font-size:.95rem;font-weight:700;cursor:pointer}
+  .warn{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 16px;border-radius:8px;font-size:.95rem}
+  .warn strong{color:#b45309}
+  details{margin-top:12px}
+  summary{cursor:pointer;font-weight:700;color:var(--indigo)}
+  textarea{width:100%;height:120px;margin-top:10px;font-family:monospace;font-size:12px;border:1px solid #ddd;border-radius:8px;padding:10px}
+  footer{text-align:center;color:var(--muted);font-size:.85rem;padding:20px}
+  .step-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;
+    background:var(--purple);color:#fff;font-size:.8rem;font-weight:700;margin-right:6px}
+  @media (max-width:600px){.hero h1{font-size:1.5rem}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>🧹 스레드 뒷삭 제거기</h1>
+  <p>맞팔해놓고 슬쩍 언팔한 계정, 이제 클릭 한 번으로 찾아서 정리하세요.<br>
+  설치 불필요 · 비밀번호 입력 없음 · 내 브라우저에서만 동작</p>
+</div>
+
+<main>
+
+<section>
+  <h2>어떻게 동작하나요?</h2>
+  <p>아래 버튼을 <b>북마크바에 한 번만 등록</b>해두면, Threads에서 그 북마크를 누를 때마다
+  화면에 작은 패널이 나타납니다. 패널에서 <b>스캔 → 목록 확인 → 언팔</b>을 클릭만으로 진행합니다.
+  모든 동작은 <b>내 브라우저 안에서만</b> 이루어지며, 어떤 정보도 외부로 전송되지 않습니다.</p>
+</section>
+
+<section>
+  <h2>1단계 · 버튼을 북마크바에 등록</h2>
+  <div class="bm-zone">
+    <a class="bm-link" id="bookmarklet" href="#">🧹 뒷삭 제거기</a>
+    <p class="bm-hint">👆 이 버튼을 <b>북마크바로 드래그</b>하세요<br>
+    (북마크바가 안 보이면 <b>Ctrl+Shift+B</b>)</p>
+  </div>
+  <details>
+    <summary>드래그가 안 되나요? (수동 등록 방법)</summary>
+    <ol style="margin-top:10px">
+      <li>아래 [코드 복사] 버튼을 누릅니다.</li>
+      <li>북마크바 빈 곳에서 <b>우클릭 → 페이지 추가(북마크 추가)</b>를 선택합니다.</li>
+      <li>이름은 "뒷삭 제거기", URL 칸에 복사한 코드를 붙여넣고 저장합니다.</li>
+    </ol>
+    <button class="btn" id="copy-code" style="margin-top:10px">📋 코드 복사</button>
+    <textarea id="code-box" readonly></textarea>
+  </details>
+</section>
+
+<section>
+  <h2>2단계 · Threads에서 실행</h2>
+  <ol>
+    <li><span class="step-num">1</span><a href="https://www.threads.com" target="_blank" rel="noopener">threads.com</a>에 로그인하고 <b>내 프로필</b>로 이동합니다.</li>
+    <li><span class="step-num">2</span>북마크바의 <b>🧹 뒷삭 제거기</b>를 클릭합니다.</li>
+    <li><span class="step-num">3</span>패널에서 <b>[① 스캔 시작]</b>을 누르면 팔로워/팔로잉 목록을 자동 수집합니다.</li>
+    <li><span class="step-num">4</span>뒷삭 계정 목록이 나오면, <b>유지하고 싶은 계정은 체크 해제</b>합니다.</li>
+    <li><span class="step-num">5</span><b>[② 선택한 계정 언팔]</b>을 누르면 자동으로 팔로우 취소가 진행됩니다.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>⚠️ 주의사항</h2>
+  <div class="warn">
+    <p><strong>한 번에 너무 많이 언팔하지 마세요.</strong> 짧은 시간에 대량 언팔하면 Threads가 계정을
+    일시 제한할 수 있습니다. 기본 설정(1회 50명, 4~8초 간격)을 권장하며, 대상이 많으면 며칠에 나눠 실행하세요.</p>
+  </div>
+  <ul style="padding-left:22px;margin-top:12px;color:var(--muted);font-size:.95rem">
+    <li>PC 브라우저(Chrome, Edge, Firefox, Whale)에서 사용하세요. 모바일 앱에서는 동작하지 않습니다.</li>
+    <li>실행 중에는 다른 탭으로 이동하거나 목록 창을 닫지 마세요.</li>
+    <li>Threads 업데이트로 화면 구조가 바뀌면 동작하지 않을 수 있습니다.</li>
+    <li>본 도구 사용에 따른 책임은 사용자 본인에게 있습니다.</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>스레드 뒷삭 제거기 · 브라우저에서만 동작하며 어떤 데이터도 수집하지 않습니다</footer>
+
+<script>
+  // 패널 스크립트 (빌드 시 자동 삽입됨)
+  var PANEL_CODE = "(()=>{\"use strict\";if(!/threads\\.(com|net)$/.test(location.hostname.replace(/^www\\./,\"\")))return void alert(\"이 도구는 Threads(threads.com)에서만 동작합니다.\\nThreads에 로그인한 뒤 내 프로필에서 실행하세요.\");const t=document.getElementById(\"tc-panel\");if(t)return void(t.style.display=\"flex\");const e=[/^팔로워/,/^followers/i],n=[/^팔로잉/,/^following/i],o=[/^팔로잉$/,/^following$/i],l=[/^팔로우\\s*취소$/,/^unfollow$/i],c=800,i=6,s={followers:new Set,following:[],candidates:[],selected:new Set,unfollowed:[],running:!1,stopRequested:!1},r=t=>new Promise(e=>setTimeout(e,t)),a=(t,e)=>Math.floor(t+Math.random()*(e-t)),d=(t,e)=>e.some(e=>e.test((t||\"\").trim())),u=()=>[...document.querySelectorAll('div[role=\"dialog\"]')];function p(){return u().find(t=>{const o=[...t.querySelectorAll(\"*\")].slice(0,400).map(t=>t.textContent||\"\");return o.some(t=>d(t,e))&&o.some(t=>d(t,n))})||null}function f(t){let e=null;for(const n of[t,...t.querySelectorAll(\"div\")])n.scrollHeight>n.clientHeight+50&&n.clientHeight>100&&(!e||n.scrollHeight>e.scrollHeight)&&(e=n);return e||t}function g(t){const e=(t.getAttribute(\"href\")||\"\").match(/^\\/@([^/?#]+)/);return e?decodeURIComponent(e[1]):null}function h(t){const e=[],n=new Set;for(const o of t.querySelectorAll('a[href^=\"/@\"]')){const t=g(o);t&&!n.has(t)&&(n.add(t),e.push(t))}return e}async function b(t,e){const n=f(t);let o=0,l=0;for(;l<i&&!s.stopRequested;){n.scrollTop=n.scrollHeight,await r(c);const i=h(t).length;i>o?(o=i,l=0,k(`${e} 수집 중... ${i}명`)):l++}return h(t)}async function w(t,e,n){const o=function(t,e){const n=[...t.querySelectorAll('div[role=\"button\"], button, div[role=\"tab\"], span, a')].filter(t=>{const n=(t.textContent||\"\").trim();return n.length>0&&n.length<30&&d(n,e)});if(!n.length)return null;n.sort((t,e)=>t.querySelectorAll(\"*\").length-e.querySelectorAll(\"*\").length);let o=n[0];for(;o&&o!==t;){const t=o.getAttribute&&o.getAttribute(\"role\");if(\"tab\"===t||\"button\"===t||\"BUTTON\"===o.tagName)return o;o=o.parentElement}return n[0]}(t,e);if(!o)throw new Error(`'${n}' 탭을 찾지 못했습니다.`);o.click(),await r(1200)}function x(t,e){const n=[...t.querySelectorAll('a[href^=\"/@\"]')].filter(t=>g(t)===e);for(const e of n){let n=e.parentElement;for(let e=0;n&&n!==t&&e<10;e++,n=n.parentElement){const t=[...n.querySelectorAll('div[role=\"button\"], button')].filter(t=>d(t.textContent,o));if(t.length)return t[0]}}return null}async function y(){for(let t=0;t<20;t++){await r(300);for(const t of u()){const e=[...t.querySelectorAll('div[role=\"button\"], button')].find(t=>d(t.textContent,l));if(e)return e.click(),!0}}return!1}const m=document.createElement(\"div\");m.id=\"tc-panel\",m.innerHTML='\\n    <style>\\n    #tc-panel{position:fixed;top:16px;right:16px;width:320px;max-height:calc(100vh - 32px);z-index:2147483647;\\n      display:flex;flex-direction:column;background:#fff;color:#111;border-radius:14px;\\n      box-shadow:0 8px 32px rgba(0,0,0,.35);font-family:-apple-system,\\'Malgun Gothic\\',sans-serif;font-size:13px;overflow:hidden}\\n    #tc-panel *{box-sizing:border-box}\\n    .tc-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;\\n      background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;font-weight:700;font-size:14px;cursor:move}\\n    .tc-x{cursor:pointer;background:none;border:none;color:#fff;font-size:16px;line-height:1;padding:2px 6px}\\n    .tc-body{padding:12px 14px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}\\n    .tc-btn{width:100%;padding:10px;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer}\\n    .tc-btn:disabled{opacity:.45;cursor:not-allowed}\\n    .tc-primary{background:#7c3aed;color:#fff}\\n    .tc-danger{background:#dc2626;color:#fff}\\n    .tc-ghost{background:#f1f0f5;color:#333}\\n    .tc-status{background:#f6f5fa;border-radius:8px;padding:8px 10px;min-height:34px;color:#444;line-height:1.5}\\n    .tc-list{border:1px solid #e5e3ee;border-radius:8px;max-height:220px;overflow-y:auto}\\n    .tc-row{display:flex;align-items:center;gap:8px;padding:6px 10px;border-bottom:1px solid #f0eef7}\\n    .tc-row:last-child{border-bottom:none}\\n    .tc-row.tc-done{opacity:.4;text-decoration:line-through}\\n    .tc-row a{color:#4f46e5;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}\\n    .tc-opts{display:flex;align-items:center;gap:6px;color:#555}\\n    .tc-opts input{width:60px;padding:4px 6px;border:1px solid #ddd;border-radius:6px;font-size:13px}\\n    .tc-meta{display:flex;justify-content:space-between;color:#777;font-size:12px}\\n    .tc-bar{height:6px;background:#eee;border-radius:3px;overflow:hidden}\\n    .tc-bar>div{height:100%;width:0;background:#7c3aed;transition:width .3s}\\n    .tc-selrow{display:flex;gap:6px}\\n    .tc-selrow .tc-btn{padding:6px}\\n  </style>\\n    <div class=\"tc-head\"><span>🧹 스레드 뒷삭 제거기</span><button class=\"tc-x\" title=\"닫기\">✕</button></div>\\n    <div class=\"tc-body\">\\n      <div class=\"tc-status\" id=\"tc-status\">내 프로필 페이지에서 [① 스캔 시작]을 누르세요.<br>팔로워/팔로잉 목록을 자동으로 수집합니다.</div>\\n      <button class=\"tc-btn tc-primary\" id=\"tc-scan\">① 스캔 시작</button>\\n      <div id=\"tc-result\" style=\"display:none;flex-direction:column;gap:10px\">\\n        <div class=\"tc-meta\"><span id=\"tc-counts\"></span><span id=\"tc-selcount\"></span></div>\\n        <div class=\"tc-selrow\">\\n          <button class=\"tc-btn tc-ghost\" id=\"tc-all\">전체 선택</button>\\n          <button class=\"tc-btn tc-ghost\" id=\"tc-none\">전체 해제</button>\\n        </div>\\n        <div class=\"tc-list\" id=\"tc-list\"></div>\\n        <div class=\"tc-opts\">한 번에 최대 <input type=\"number\" id=\"tc-limit\" value=\"50\" min=\"1\" max=\"200\"> 명 언팔 (간격 4~8초)</div>\\n        <div class=\"tc-bar\"><div id=\"tc-progress\"></div></div>\\n        <button class=\"tc-btn tc-danger\" id=\"tc-run\">② 선택한 계정 언팔</button>\\n        <button class=\"tc-btn tc-ghost\" id=\"tc-stop\" style=\"display:none\">■ 중지</button>\\n        <button class=\"tc-btn tc-ghost\" id=\"tc-copy\">뒷삭 목록 복사</button>\\n      </div>\\n    </div>\\n  ',document.body.appendChild(m);const v=t=>m.querySelector(t),k=t=>{v(\"#tc-status\").innerHTML=t},q=t=>{v(\"#tc-progress\").style.width=t+\"%\"};function S(){const t=v(\"#tc-list\");t.innerHTML=\"\";for(const e of s.candidates){const n=document.createElement(\"label\");n.className=\"tc-row\"+(s.unfollowed.includes(e)?\" tc-done\":\"\"),n.dataset.handle=e;const o=document.createElement(\"input\");o.type=\"checkbox\",o.checked=s.selected.has(e),o.disabled=s.unfollowed.includes(e),o.onchange=()=>{o.checked?s.selected.add(e):s.selected.delete(e),$()};const l=document.createElement(\"a\");l.href=`https://www.threads.com/@${e}`,l.target=\"_blank\",l.textContent=\"@\"+e,n.append(o,l),t.appendChild(n)}$()}function $(){v(\"#tc-counts\").textContent=`팔로워 ${s.followers.size} · 팔로잉 ${s.following.length} · 뒷삭 ${s.candidates.length}`,v(\"#tc-selcount\").textContent=`선택 ${s.selected.size}명`}function A(t){const e=v(\"#tc-list\").querySelector(`[data-handle=\"${CSS.escape(t)}\"]`);e&&(e.classList.add(\"tc-done\"),e.querySelector(\"input\").disabled=!0)}(()=>{const t=m.querySelector(\".tc-head\");let e,n,o,l,c=!1;t.addEventListener(\"mousedown\",t=>{if(t.target.closest(\".tc-x\"))return;c=!0,e=t.clientX,n=t.clientY;const i=m.getBoundingClientRect();o=i.left,l=i.top,t.preventDefault()}),window.addEventListener(\"mousemove\",t=>{c&&(m.style.left=o+t.clientX-e+\"px\",m.style.top=l+t.clientY-n+\"px\",m.style.right=\"auto\")}),window.addEventListener(\"mouseup\",()=>{c=!1})})(),m.querySelector(\".tc-x\").onclick=()=>{s.running&&(s.stopRequested=!0),m.style.display=\"none\"},v(\"#tc-scan\").onclick=async()=>{if(!s.running){s.running=!0,s.stopRequested=!1,v(\"#tc-scan\").disabled=!0;try{k(\"팔로워/팔로잉 모달 여는 중...\");if(!await async function(){if(p())return!0;const t=[...document.querySelectorAll('a, div[role=\"button\"], span, button')].filter(t=>{const n=(t.textContent||\"\").trim();return n.length>0&&n.length<25&&d(n,e)&&null===t.closest('div[role=\"dialog\"]')});t.sort((t,e)=>t.querySelectorAll(\"*\").length-e.querySelectorAll(\"*\").length);for(const e of t.slice(0,3)){e.click();for(let t=0;t<10;t++)if(await r(400),p())return!0}return!!p()}())return void k(\"⚠️ 모달을 열지 못했습니다.<br><b>내 프로필</b>에서 <b>팔로워 수를 직접 클릭</b>해 목록을 연 뒤 다시 [스캔 시작]을 누르세요.\");const t=p();await w(t,e,\"팔로워\");const o=await b(t,\"팔로워\");s.followers=new Set(o),await w(t,n,\"팔로잉\"),s.following=await b(t,\"팔로잉\"),s.candidates=s.following.filter(t=>!s.followers.has(t)),s.selected=new Set(s.candidates),s.unfollowed=[],v(\"#tc-result\").style.display=\"flex\",S(),k(s.candidates.length?`✅ 스캔 완료! 나를 팔로우하지 않는 계정 <b>${s.candidates.length}명</b>을 찾았습니다.<br>유지할 계정은 체크를 해제한 뒤 [② 언팔]을 누르세요.`:\"🎉 뒷삭한 계정이 없습니다! 모두 맞팔 상태입니다.\")}catch(t){k(\"⚠️ 오류: \"+t.message)}finally{s.running=!1,v(\"#tc-scan\").disabled=!1,v(\"#tc-scan\").textContent=\"① 다시 스캔\"}}},v(\"#tc-all\").onclick=()=>{s.selected=new Set(s.candidates.filter(t=>!s.unfollowed.includes(t))),S()},v(\"#tc-none\").onclick=()=>{s.selected=new Set,S()},v(\"#tc-copy\").onclick=async()=>{const t=s.candidates.map(t=>\"@\"+t).join(\"\\n\");try{await navigator.clipboard.writeText(t),k(\"📋 목록이 클립보드에 복사되었습니다.\")}catch{prompt(\"아래 내용을 복사하세요:\",t)}},v(\"#tc-stop\").onclick=()=>{s.stopRequested=!0,k(\"중지 요청됨 — 현재 계정 처리 후 멈춥니다.\")},v(\"#tc-run\").onclick=async()=>{if(s.running)return;const t=Math.max(1,Math.min(200,parseInt(v(\"#tc-limit\").value,10)||50)),e=new Set([...s.selected].filter(t=>!s.unfollowed.includes(t)));if(!e.size)return void k(\"선택된 계정이 없습니다.\");if(!confirm(`선택한 ${e.size}명 중 최대 ${t}명을 팔로우 취소합니다.\\n계속할까요?`))return;const o=p();if(o){s.running=!0,s.stopRequested=!1,v(\"#tc-run\").style.display=\"none\",v(\"#tc-stop\").style.display=\"block\",v(\"#tc-scan\").disabled=!0;try{await w(o,n,\"팔로잉\");const l=f(o);l.scrollTop=0,await r(1e3);const d=Math.min(t,e.size);let u=0,p=0,g=0;for(;u<t&&e.size&&!s.stopRequested;){let n=!1;for(const l of[...e]){if(u>=t||s.stopRequested)break;const c=x(o,l);if(!c)continue;n=!0,c.scrollIntoView({block:\"center\"}),await r(500),c.click();const i=await y();e.delete(l),i?(u++,s.unfollowed.push(l),A(l),k(`언팔 중... (${u}/${d}) @${l} 완료`),q(Math.round(u/d*100))):k(`⚠️ @${l} 확인 버튼을 찾지 못해 건너뜀`),await r(a(4e3,8e3))}if(u>=t||s.stopRequested)break;if(l.scrollTop=l.scrollHeight,await r(c),l.scrollHeight!==g||n)p=0,g=l.scrollHeight;else if(++p>=i)break}const h=[...e].length+[...s.selected].filter(t=>!s.unfollowed.includes(t)&&!e.has(t)).length;k(`✅ 완료: ${u}명 언팔했습니다.`+(s.stopRequested?\" (사용자 중지)\":\"\")+(h>0?`<br>남은 대상 ${h}명 — 계정 보호를 위해 시간을 두고 다시 실행하세요.`:\"\"))}catch(t){k(\"⚠️ 오류: \"+t.message)}finally{s.running=!1,v(\"#tc-run\").style.display=\"block\",v(\"#tc-stop\").style.display=\"none\",v(\"#tc-scan\").disabled=!1,q(0),$()}}else k(\"⚠️ 목록 모달이 닫혔습니다. [스캔 시작]부터 다시 실행하세요.\")}})();";
+  var href = 'javascript:' + encodeURIComponent(PANEL_CODE);
+  var bm = document.getElementById('bookmarklet');
+  bm.setAttribute('href', href);
+  bm.addEventListener('click', function (e) {
+    e.preventDefault();
+    alert('클릭이 아니라, 이 버튼을 위쪽 북마크바로 "드래그"해서 등록하세요!\n등록 후 Threads에서 북마크를 클릭하면 실행됩니다.');
+  });
+  document.getElementById('code-box').value = href;
+  document.getElementById('copy-code').addEventListener('click', function () {
+    var box = document.getElementById('code-box');
+    box.select();
+    navigator.clipboard.writeText(box.value).then(function () {
+      document.getElementById('copy-code').textContent = '✅ 복사됨!';
+    });
+  });
+</script>
+</body>
+</html>
